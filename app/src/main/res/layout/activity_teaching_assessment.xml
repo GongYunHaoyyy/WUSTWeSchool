@@ -4,10 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/hhhhhhhhh"
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/hhhhhhasdf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</ScrollView>
 </LinearLayout>

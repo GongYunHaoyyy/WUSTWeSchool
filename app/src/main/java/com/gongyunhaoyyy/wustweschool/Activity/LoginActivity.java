@@ -1,10 +1,15 @@
 package com.gongyunhaoyyy.wustweschool.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -50,16 +55,19 @@ public class LoginActivity extends BaseActivity {
                     if (user.length()!=12||pass.length()<4){
                         showToast( "输入有误" );
                     } else {
-                        dialog.show();
-                        new Thread( new Runnable( ) {
-                            @Override
-                            public void run() {
-                                try {
-                                    //这样看起来比较流畅
-                                    Thread.sleep( 600 );
-                                    Ksoap2 ksoap2=new Ksoap2();
-                                    login_result=ksoap2.getLoginInfo( user,pass );
-                                    reslut2=login_result.split( "," );
+                        if (!isNetworkAvailable( LoginActivity.this )){
+                            showToast( R.string.nointernet );
+                        }else {
+                            dialog.show();
+                            new Thread( new Runnable( ) {
+                                @Override
+                                public void run() {
+                                    try {
+                                        //这样看起来比较流畅
+                                        Thread.sleep( 600 );
+//                                        Ksoap2 ksoap2=new Ksoap2();
+                                        login_result= Ksoap2.getLoginInfo( user,pass );
+                                        reslut2=login_result.split( "," );
                                         //回到主线程更新UI
                                         runOnUiThread( new Runnable( ) {
                                             @Override
@@ -74,16 +82,16 @@ public class LoginActivity extends BaseActivity {
                                                      */
                                                     userdt=userdt+","+userData;
                                                     //获取图像失败了......
-//                                                    ImageView imageView=findViewById( R.id.tuxiang );
-//                                                    String strURL=userdt.split( "," )[3];
-//                                                    Bitmap bitmap= null;
-//                                                    try {
-//                                                        bitmap = getBitmap(strURL);
-//                                                    } catch (IOException e) {
-//                                                        e.printStackTrace( );
-//                                                    }
-//                                                    imageView.setImageBitmap( bitmap );
-//                                                    Log.d( "user信息~~~~~~~~~~~>",strURL );
+                                                    //                                                    ImageView imageView=findViewById( R.id.tuxiang );
+                                                    //                                                    String strURL=userdt.split( "," )[3];
+                                                    //                                                    Bitmap bitmap= null;
+                                                    //                                                    try {
+                                                    //                                                        bitmap = getBitmap(strURL);
+                                                    //                                                    } catch (IOException e) {
+                                                    //                                                        e.printStackTrace( );
+                                                    //                                                    }
+                                                    //                                                    imageView.setImageBitmap( bitmap );
+                                                    //                                                    Log.d( "user信息~~~~~~~~~~~>",strURL );
                                                     showToast( xm+"，欢迎你~" );
                                                     nameeditor.putString( "getuserdata",userdt );
                                                     nameeditor.apply();
@@ -91,24 +99,25 @@ public class LoginActivity extends BaseActivity {
                                                     dialog.dismiss();
                                                     finish();
                                                 }else {
+//                                                    Log.d( "Login-------->",login_result );
                                                     showToast( R.string.nointernet );
                                                     dialog.dismiss();
                                                 }
                                             }
                                         } );
 
-                                }catch (Exception e){
-                                    e.printStackTrace();
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        } ).start();
+                            } ).start();
+                        }
                     }
                 }
             } );
 
         }
     }
-
 
     @Override
     public void setContentView() {
@@ -131,6 +140,36 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData() {
 
+    }
+
+    public boolean isNetworkAvailable(AppCompatActivity activity)
+    {
+        Context context = activity.getApplicationContext();
+        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager == null)
+        {
+            return false;
+        }
+        else
+        {
+            // 获取NetworkInfo对象
+            NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
+
+            if (networkInfo != null && networkInfo.length > 0)
+            {
+                for (int i = 0; i < networkInfo.length; i++)
+                {
+                    // 判断当前网络状态是否为连接状态
+                    if (networkInfo[i].getState() == NetworkInfo.State.CONNECTED)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private String parseJSONwithJSONObject(String jsonData){

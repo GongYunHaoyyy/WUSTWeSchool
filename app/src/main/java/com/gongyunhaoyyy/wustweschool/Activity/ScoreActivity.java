@@ -52,7 +52,7 @@ public class ScoreActivity extends BaseActivity {
                     List<score> slist=gson.fromJson( score,new TypeToken<List<score>>(){}.getType());
                     mScorelist_all.addAll( slist );
                     for (int i=0;i<slist.size();i++){
-                        if (slist.get( i ).getKkxq().equals( getDateForXq() ))
+                        if (slist.get( i ).getKkxq().equals( "2017-2018-1" ))
                         mScorelist_now.add( slist.get( i ) );
                     }
                     //回到主线程更新UI

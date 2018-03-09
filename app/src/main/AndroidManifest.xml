@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gongyunhaoyyy.wustweschool">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -41,9 +42,8 @@
             android:launchMode="singleTop"
             android:name=".yuanlai.yuanlai.card.card_login_activity" >
         </activity>
-        <activity android:name=".Activity.ChooseLessonActivity2">
-        </activity>
-        <activity android:name=".yuanlai.yuanlai.library.search_book_list_activity"></activity>
+        <activity android:name=".Activity.ChooseLessonActivity2"/>
+        <activity android:name=".yuanlai.yuanlai.library.search_book_list_activity"/>
 
     </application>
 

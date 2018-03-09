@@ -4,9 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gongyunhaoyyy.wustweschool.R;
 import com.gongyunhaoyyy.wustweschool.bean.score;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -66,6 +72,20 @@ public class BaseFragment extends Fragment{
         SharedPreferences userdate=getActivity().getSharedPreferences( "userdata",MODE_PRIVATE );
         String[] uddt=userdate.getString( "getuserdata","" ).split( "," );
         return uddt;
+    }
+
+    public AlertDialog loadingDialog(String text, boolean cancelable){
+        View view= LayoutInflater.from(getActivity()).inflate
+                ( R.layout.toast_loading,null);
+        AVLoadingIndicatorView avl=(AVLoadingIndicatorView) view.findViewById(R.id.avl);
+        avl.show();
+        TextView tv=view.findViewById(R.id.tv);
+        tv.setText(text);
+        AlertDialog dialog=new AlertDialog.Builder(getActivity(),R.style.CustomDialog)
+                .setView(view)
+                .setCancelable(cancelable)
+                .create();
+        return dialog;
     }
 
     public String getDateForXq(){

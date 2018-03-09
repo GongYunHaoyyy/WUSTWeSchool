@@ -45,20 +45,20 @@ public class fragment_score_all extends BaseFragment {
         layoutManager=new StaggeredGridLayoutManager( 1,StaggeredGridLayoutManager.VERTICAL );
         recycler_score.setLayoutManager( layoutManager );
 
-//        for (score ssss:mScorelist_all){
-//            number++;
-//        }
-//        if (number<1){
-//            null_a.setVisibility( View.VISIBLE );
-//            recycler_score.setVisibility( View.GONE );
-//        }else {
-//            null_a.setVisibility( View.GONE );
-//            recycler_score.setVisibility( View.GONE );
+        for (score ssss:mScorelist_all){
+            number++;
+        }
+        if (number<1){
+            null_a.setVisibility( View.VISIBLE );
+            recycler_score.setVisibility( View.GONE );
+        }else {
+            null_a.setVisibility( View.GONE );
+            recycler_score.setVisibility( View.VISIBLE );
 
             ScoreAdapter adapter=new ScoreAdapter(mScorelist_all);
             recycler_score.setAdapter( adapter );
             adapter.notifyDataSetChanged();
-//        }
+        }
 
         return view;
     }

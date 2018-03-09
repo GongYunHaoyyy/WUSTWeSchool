@@ -1,18 +1,28 @@
 package com.gongyunhaoyyy.wustweschool.viewPager;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.gongyunhaoyyy.wustweschool.Activity.ChooseLessonActivity;
 import com.gongyunhaoyyy.wustweschool.Activity.ScoreActivity;
 import com.gongyunhaoyyy.wustweschool.Activity.TeachingAssessmentActivity;
 import com.gongyunhaoyyy.wustweschool.Base.BaseFragment;
+import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
 import com.gongyunhaoyyy.wustweschool.yuanlai.yuanlai.library.library_login_activity;
 import com.gongyunhaoyyy.wustweschool.R;
 import org.jsoup.Connection;
@@ -20,6 +30,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by GongYunHao on 2017/10/11.
@@ -45,7 +57,22 @@ public class PagerMain extends BaseFragment {
     private View bookThirdRow;
     private Elements elements;
     private Document document;
+    Toolbar toolbar;
 
+
+    //界面图片相关
+    public static String IMAGE_CACHE_PATH = "imageloader/Cache"; // 图片缓存路径
+    private ViewPager adViewPager;
+    private List<ImageView> imageViews;// 滑动的图片集合
+    private List<View> dots; // 图片标题正文的那些点
+    private List<View> dotList;
+    private ScheduledExecutorService scheduledExecutorService;
+
+    private static final int QUERY_COURSE = 1;
+    private static final int DIALOG_COURSE = 3;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+    private String xq;
 
     @Override
     public void onAttach(Context context) {
@@ -145,13 +172,9 @@ public class PagerMain extends BaseFragment {
                                         bookThirdRow.setVisibility(View.VISIBLE);
                                     }
 
-
                                 }
                             });
                         }
-
-
-
 
                     }catch (IOException e){
                         e.printStackTrace();
@@ -179,7 +202,7 @@ public class PagerMain extends BaseFragment {
                 startIntent( ChooseLessonActivity.class );
             }
         } );
-        view.findViewById( R.id.empty_class ).setOnClickListener( new View.OnClickListener( ) {
+        view.findViewById( R.id.teaching_assessment ).setOnClickListener( new View.OnClickListener( ) {
             @Override
             public void onClick(View v) {
                 startIntent( TeachingAssessmentActivity.class );
