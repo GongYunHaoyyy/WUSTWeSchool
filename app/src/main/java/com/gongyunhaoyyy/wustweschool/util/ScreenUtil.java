@@ -2,18 +2,12 @@ package com.gongyunhaoyyy.wustweschool.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
-
-import com.gongyunhaoyyy.wustweschool.Base.BaseActivity;
-
-import java.io.File;
 
 //    ┏┓　   ┏┓
 // ┏━━┛┻━━━━━┛┻ ┓ 

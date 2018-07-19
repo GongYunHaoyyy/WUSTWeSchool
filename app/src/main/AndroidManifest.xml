@@ -6,32 +6,32 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="org.litepal.LitePalApplication"
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/wust_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
 
         </activity>
         <activity android:name=".yuanlai.yuanlai.library.Search_activity" />
-        <activity android:name=".Activity.ScoreActivity" />
-        <activity android:name=".Activity.ChooseLessonActivity" />
+        <activity android:name=".activity.ScoreActivity" />
+        <activity android:name=".activity.ChooseLessonActivity" />
         <activity android:name=".yuanlai.yuanlai.news.dean_office_activity" />
         <activity android:name=".yuanlai.yuanlai.news.online_news_activity" />
         <activity android:name=".yuanlai.yuanlai.news.combined_news_activity" />
         <activity android:name=".yuanlai.yuanlai.news.academy_news_activity" />
         <activity android:name=".yuanlai.yuanlai.library.notification_activity" />
-        <activity android:name=".Activity.LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.TeachingAssessmentActivity" />
+        <activity android:name=".activity.TeachingAssessmentActivity" />
         <activity
             android:launchMode="singleTop"
             android:name=".yuanlai.yuanlai.library.library_login_activity" >
@@ -42,7 +42,7 @@
             android:launchMode="singleTop"
             android:name=".yuanlai.yuanlai.card.card_login_activity" >
         </activity>
-        <activity android:name=".Activity.ChooseLessonActivity2"/>
+        <activity android:name=".activity.ChooseLessonActivity2"/>
         <activity android:name=".yuanlai.yuanlai.library.search_book_list_activity"/>
 
     </application>

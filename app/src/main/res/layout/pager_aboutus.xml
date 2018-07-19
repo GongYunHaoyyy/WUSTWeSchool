@@ -38,7 +38,7 @@
 
                 </LinearLayout>
 
-                <com.gongyunhaoyyy.wustweschool.UI.WaveView
+                <com.gongyunhaoyyy.wustweschool.ui.WaveView
                     android:id="@+id/wave_view"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"

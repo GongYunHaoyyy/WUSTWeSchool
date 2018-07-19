@@ -1,18 +1,10 @@
 package com.gongyunhaoyyy.wustweschool.util;
 
-
-import android.util.Log;
-
-import com.gongyunhaoyyy.wustweschool.util.Md5Util;
-
-import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,170 +21,48 @@ public class Ksoap2 {
     // EndPoint
     private static final String endPoint = "http://jwxt.wust.edu.cn/whkjdx/services/whkdapp";
 
+    private static final String baseSoapAction = "http://webservices.qzdatasoft.com/";
 
-
-    public static String getScoreInfo(String xh) {
-
+    public static String getScoreInfo(String xh) throws IOException, XmlPullParserException {
         // 调用的方法名称
         String methodName = "getxscj";
 
-        // SOAP Action
-        final String soapAction = "http://webservices.qzdatasoft.com/getxscj";
-
-        // 指定WebService的命名空间和调用的方法名
-        SoapObject rpc = new SoapObject(nameSpace, methodName);
-
-        //相关参数
-        Date date=new Date();
-        DateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String time=format.format(date);
-        String chkvalue=key+time;
-        chkvalue= Md5Util.MD5(chkvalue);
-        chkvalue=chkvalue.substring(2).toLowerCase();
-
-        // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-        rpc.addProperty("in0", xh);
-        rpc.addProperty("in1", time);
-        rpc.addProperty("in2", chkvalue);
-
-        // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope( SoapEnvelope.VER11);
-
-        envelope.bodyOut = rpc;
-        // 设置是否调用的是dotNet开发的WebService
-        envelope.dotNet = true;
-        // 等价于envelope.bodyOut = rpc;
-        envelope.setOutputSoapObject(rpc);
-
-        HttpTransportSE transport = new HttpTransportSE(endPoint);
-        try {
-            // 调用WebService
-            transport.call(soapAction, envelope);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // 获取返回的数据
-        SoapObject object = (SoapObject) envelope.bodyIn;
-        // 获取返回的结果
-        String result = object.getProperty("out").toString();
-
-        return result;
+        SoapObject localSoapObject = new SoapObject(nameSpace, methodName);
+        localSoapObject.addProperty("in0", xh);
+        return getResult(methodName, localSoapObject, 1);
     }
 
-    public static String getCourseInfo(String xh, String xq) {
-
+    public static String getCourseInfo(String xh, String xq) throws IOException, XmlPullParserException {
         // 调用的方法名称
         String methodName = "getyxkclb";
-
-        // SOAP Action
-        final String soapAction = "http://webservices.qzdatasoft.com/getyxkclb";
-
-        // 指定WebService的命名空间和调用的方法名
-        SoapObject rpc = new SoapObject(nameSpace, methodName);
-
-        //相关参数
-        Date date=new Date();
-        DateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String time=format.format(date);
-        String chkvalue=key+time;
-        chkvalue= Md5Util.MD5(chkvalue);
-        chkvalue=chkvalue.substring(2).toLowerCase();
-
-        // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-        rpc.addProperty("in0", xh);
-        rpc.addProperty("in1",xq);
-        rpc.addProperty("in2", time);
-        rpc.addProperty("in3", chkvalue);
-
-        // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope( SoapEnvelope.VER11);
-
-        envelope.bodyOut = rpc;
-        // 设置是否调用的是dotNet开发的WebService
-        envelope.dotNet = true;
-        // 等价于envelope.bodyOut = rpc;
-        envelope.setOutputSoapObject(rpc);
-
-        HttpTransportSE transport = new HttpTransportSE(endPoint);
-        try {
-            // 调用WebService
-            transport.call(soapAction, envelope);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // 获取返回的数据
-        SoapObject object = (SoapObject) envelope.bodyIn;
-        // 获取返回的结果
-        String result = object.getProperty("out").toString();
-
-        return result;
+        SoapObject localSoapObject =new  SoapObject(nameSpace, methodName);
+        localSoapObject.addProperty("in0", xh);
+        localSoapObject.addProperty("in1", xq);
+        return getResult(methodName, localSoapObject, 2);
     }
 
-    public static String getLoginInfo(String xh, String pwd) {
-
-        String result;
-
-        // 调用的方法名称
-        // 坑惨了，换成newlogin就ok了
-//        String methodName = "xslogin";
+    public static String getLoginInfo(String xh, String pwd) throws IOException, XmlPullParserException {
         String methodName = "newlogin";
 
-        // SOAP Action
-        final String soapAction = "http://webservices.qzdatasoft.com/newlogin";
+        SoapObject localSoapObject = new SoapObject(nameSpace, methodName);
+        localSoapObject.addProperty("in0", xh);
+        localSoapObject.addProperty("in1", pwd);
+        return getResult(methodName, localSoapObject, 2);
 
-        // 指定WebService的命名空间和调用的方法名
-        SoapObject rpc = new SoapObject(nameSpace, methodName);
+//        // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
+//        rpc.addProperty("in0", xh);
+//        rpc.addProperty("in1", pwd);
+//        rpc.addProperty("in2", time);
+//        rpc.addProperty("in3", chkvalue);
 
-        //相关参数
-        Date date=new Date();
-        DateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String time=format.format(date);
-        String chkvalue=key+time;
-        chkvalue= Md5Util.MD5(chkvalue);
-        chkvalue=chkvalue.substring(2).toLowerCase();
-
-        // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-        rpc.addProperty("in0", xh);
-        rpc.addProperty("in1", pwd);
-        rpc.addProperty("in2", time);
-        rpc.addProperty("in3", chkvalue);
-
-        // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope( SoapEnvelope.VER11);
-
-        envelope.bodyOut = rpc;
-        // 设置是否调用的是dotNet开发的WebService
-        envelope.dotNet = true;
-        // 等价于envelope.bodyOut = rpc;
-        envelope.setOutputSoapObject(rpc);
-
-        HttpTransportSE transport = new HttpTransportSE(endPoint);
-        try {
-            // 调用WebService
-            transport.call(soapAction, envelope);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // 获取返回的数据
-        SoapObject object = (SoapObject) envelope.bodyIn;
-        // 获取返回的结果
-        if(object == null){
-            Log.i("KSOAP2", "null object");
-            result = "100";
-        }else{
-            result = object.getProperty("out").toString();
-        }
-        return result;
     }
     //选课阶段
     public static String getXkjd(String paramString) throws IOException, XmlPullParserException {
-        //        String xh,String time,String chkvalue)
-        SoapObject localSoapObject = new SoapObject("http://webservices.qzdatasoft.com", "getxkjdlb");
+
+        String methodName = "getxkjdlb";
+        SoapObject localSoapObject = new SoapObject(nameSpace, methodName);
         localSoapObject.addProperty("in0", paramString);
-        return getResult("getxkjdlb", localSoapObject, 1);
+        return getResult(methodName, localSoapObject, 1);
     }
     /**
      * 获取可选课程
@@ -203,22 +73,21 @@ public class Ksoap2 {
      * @return
      */
     public static String getKxkc(String paramString1, String paramString2, String paramString3, String paramString4, String paramString5, String paramString6)
-            throws IOException, XmlPullParserException
-    {
-//        String xh,String jx0502id,String xnxq,String kcmc,String skjs,String sksj,String time,String chkvalue
-        SoapObject localSoapObject = new SoapObject("http://webservices.qzdatasoft.com", "getkykc");
+            throws IOException, XmlPullParserException {
+        String methodName = "getkykc";
+        SoapObject localSoapObject = new SoapObject(nameSpace, methodName);
         localSoapObject.addProperty("in0", paramString1);
         localSoapObject.addProperty("in1", paramString2);
         localSoapObject.addProperty("in2", paramString3);
         localSoapObject.addProperty("in3", paramString4);
         localSoapObject.addProperty("in4", paramString5);
         localSoapObject.addProperty("in5", paramString6);
-        return getResult("getkykc", localSoapObject, 6);
+        return getResult(methodName, localSoapObject, 6);
     }
-    public static String getTerm()
-            throws IOException, XmlPullParserException
-    {
-        return getResult("getpjxnxq", new SoapObject("http://webservices.qzdatasoft.com", "getpjxnxq"), 0);
+
+    public static String getTerm() throws IOException, XmlPullParserException {
+        String methodName = "getpjxnxq";
+        return getResult(methodName, new SoapObject(nameSpace, methodName), 0);
     }
     /**
      * 获取评价批次名称
@@ -228,12 +97,12 @@ public class Ksoap2 {
     Json字符串
      * @param xnxq01id
      */
-    public static String getPjpcmc(String xnxq01id)
-            throws IOException, XmlPullParserException
-    {
-        SoapObject localSoapObject = new SoapObject("http://webservices.qzdatasoft.com", "getpjpcmc");
+    public static String getPjpcmc(String xnxq01id) throws IOException, XmlPullParserException {
+        String methodName = "getpjpcmc";
+
+        SoapObject localSoapObject = new SoapObject(nameSpace, methodName);
         localSoapObject.addProperty("in0", xnxq01id);
-        return getResult("getpjpcmc", localSoapObject, 1);
+        return getResult(methodName, localSoapObject, 1);
     }
 
     /**
@@ -246,7 +115,7 @@ public class Ksoap2 {
     static String getResult(String paramString, SoapObject paramSoapObject, int paramInt) throws IOException, XmlPullParserException {
         Date localDate = new Date();
         String str1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(localDate);
-        String str2 = Md5Util.MD5("webservice_whkdapp" + str1).substring(2).toLowerCase();
+        String str2 = Md5Util.MD5(key + str1).substring(2).toLowerCase();
         int i = paramInt + 1;
         paramSoapObject.addProperty("in"+paramInt, str1);
         paramSoapObject.addProperty("in"+i, str2);
@@ -254,9 +123,8 @@ public class Ksoap2 {
         localSoapSerializationEnvelope.bodyOut = paramSoapObject;
         localSoapSerializationEnvelope.dotNet = true;
         localSoapSerializationEnvelope.setOutputSoapObject(paramSoapObject);
-        new HttpTransportSE("http://jwxt.wust.edu.cn/whkjdx/services/whkdapp").call("http://webservices.qzdatasoft.com/" + paramString, localSoapSerializationEnvelope);
+        new HttpTransportSE(endPoint).call(baseSoapAction + paramString, localSoapSerializationEnvelope);
         return ((SoapObject)localSoapSerializationEnvelope.bodyIn).getProperty("out").toString();
     }
-
 
 }

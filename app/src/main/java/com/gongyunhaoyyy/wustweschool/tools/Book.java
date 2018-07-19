@@ -26,9 +26,6 @@ public class Book {
         }
         Elements elements = document.getElementsByClass("table_line").select("tr");
         for (int i=1 ; i<elements.size() ; i++){
-
-
-
         }
     }
 

@@ -10,7 +10,7 @@
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/avl"
         app:indicatorColor="#fefefe"
-        app:indicatorName="PacmanIndicator"
+        app:indicatorName="LineSpinFadeLoaderIndicator"
         android:layout_width="@dimen/toast_icon_size"
         android:layout_height="@dimen/toast_icon_size"
         android:layout_margin="@dimen/sub_small_spacing"/>

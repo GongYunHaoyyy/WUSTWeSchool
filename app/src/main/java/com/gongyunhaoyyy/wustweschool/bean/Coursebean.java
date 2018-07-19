@@ -15,7 +15,6 @@ public class Coursebean implements Serializable {
     private String[] p_kkzc_c;//开课周次粗略
     private int[] p_kcxq;
 
-
     //以下用于课表适配：kkzc:开课周次，kcxq:课程星期，kcjc:课程节次(第几大节)
     private String kcsj1,kcsj2,kcsj3,jsmc1,jsmc2,jsmc3;
     private int kkzc1s;
