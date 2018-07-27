@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#a0afafaf"/>
+    <corners android:radius="@dimen/card_elevation"/>
+    <size android:width="@dimen/status_height"
+          android:height="@dimen/title_bar_height"/>
+</shape>

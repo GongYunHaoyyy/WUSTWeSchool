@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:id="@+id/score"
+                android:id="@+id/ll_score"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -60,7 +60,7 @@
                    />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/choose_lesson"
+                android:id="@+id/ll_choose_lesson"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -84,7 +84,7 @@
                     android:layout_marginBottom="6dp"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/teaching_assessment"
+                android:id="@+id/ll_teaching_assessment"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_width="0dp"

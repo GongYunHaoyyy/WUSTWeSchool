@@ -48,13 +48,6 @@ public class Ksoap2 {
         localSoapObject.addProperty("in0", xh);
         localSoapObject.addProperty("in1", pwd);
         return getResult(methodName, localSoapObject, 2);
-
-//        // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-//        rpc.addProperty("in0", xh);
-//        rpc.addProperty("in1", pwd);
-//        rpc.addProperty("in2", time);
-//        rpc.addProperty("in3", chkvalue);
-
     }
     //选课阶段
     public static String getXkjd(String paramString) throws IOException, XmlPullParserException {
@@ -126,5 +119,4 @@ public class Ksoap2 {
         new HttpTransportSE(endPoint).call(baseSoapAction + paramString, localSoapSerializationEnvelope);
         return ((SoapObject)localSoapSerializationEnvelope.bodyIn).getProperty("out").toString();
     }
-
 }

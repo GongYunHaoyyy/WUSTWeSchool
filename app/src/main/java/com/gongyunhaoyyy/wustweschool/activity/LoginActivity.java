@@ -19,30 +19,33 @@ import com.gongyunhaoyyy.wustweschool.base.BaseActivity;
 import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
 import com.gongyunhaoyyy.wustweschool.R;
 import com.gongyunhaoyyy.wustweschool.ui.DrawView;
+import com.gongyunhaoyyy.wustweschool.util.SharePreferenceHelper;
+import com.gongyunhaoyyy.wustweschool.util.ThreadPoolManager;
 
 import org.json.JSONObject;
 
 public class LoginActivity extends BaseActivity {
     private EditText et_username,et_password;
     private Button login;
-    private String login_result,user,pass,userdt,xm;
+    private String login_result,user,pass,xm;
     private String[] reslut2;
     private AlertDialog dialog;
+    private SharedPreferences.Editor nameEditor;
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        SharedPreferences ud=getSharedPreferences( "userdata", MODE_PRIVATE );
-        String uddt=ud.getString( "getuserdata","" );
+        SharedPreferences ud=getSharedPreferences( SharePreferenceHelper.USER_DATE, MODE_PRIVATE );
+        String uddt=ud.getString(SharePreferenceHelper.IS_LOGIN,"" );
         if (!uddt.isEmpty()){
-            Intent it=new Intent( LoginActivity.this,MainActivity.class );
-            startActivity( it );
+            startActivity(MainActivity.newIntent(LoginActivity.this));
             finish();
         }else {
-            setContentView();
-            @SuppressLint("CommitPrefEdits") final SharedPreferences.Editor nameeditor = getSharedPreferences( "userdata", MODE_PRIVATE ).edit( );
+            setContentView( R.layout.activity_login );
+            nameEditor = ud.edit( );
             //透明状态栏
-            getWindow().addFlags( WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             initViews();
             dialog=loadingDialog( "小园登陆中...",false );
             login.setOnClickListener( new View.OnClickListener( ) {
@@ -50,7 +53,6 @@ public class LoginActivity extends BaseActivity {
                 public void onClick(View v) {
                     user=et_username.getText().toString();
                     pass=et_password.getText().toString();
-                    userdt=user+","+pass;
                     if (user.length()!=12||pass.length()<4){
                         showToast( "输入有误" );
                     } else {
@@ -58,7 +60,7 @@ public class LoginActivity extends BaseActivity {
                             showToast( R.string.nointernet );
                         }else {
                             dialog.show();
-                            new Thread( new Runnable( ) {
+                            ThreadPoolManager.getInstance().addExecuteTask( new Runnable( ) {
                                 @Override
                                 public void run() {
                                     try {
@@ -70,34 +72,16 @@ public class LoginActivity extends BaseActivity {
                                         runOnUiThread( new Runnable( ) {
                                             @Override
                                             public void run() {
-                                                if (reslut2[0].equals( "0" )){
+                                                if (reslut2[0].equals( "0" )){// 登录失败
                                                     showToast( reslut2[1] );
                                                     dialog.dismiss();
-                                                }else if (reslut2[0].equals( "1" )){
-                                                    String userData=parseJSONwithJSONObject(login_result.substring( 3,login_result.length()-1 ));
-                                                    /**
-                                                     * 0学号 1密码 2姓名 3学生照片 4性别 5身份(普通本科)
-                                                     */
-                                                    userdt=userdt+","+userData;
-//获取图像失败了......
-//                                                    ImageView imageView=findViewById( R.id.tuxiang );
-//                                                    String strURL=userdt.split( "," )[3];
-//                                                    Bitmap bitmap= null;
-//                                                    try {
-//                                                        bitmap = getBitmap(strURL);
-//                                                    } catch (IOException e) {
-//                                                        e.printStackTrace( );
-//                                                    }
-//                                                    imageView.setImageBitmap( bitmap );
-//                                                    Log.d( "user信息~~~~~~~~~~~>",strURL );
+                                                }else if (reslut2[0].equals( "1" )){// 登录成功
+                                                    parseJSONwithJSONObject(login_result.substring( 3,login_result.length()-1 ));
                                                     showToast( xm+"，欢迎你~" );
-                                                    nameeditor.putString( "getuserdata",userdt );
-                                                    nameeditor.apply();
-                                                    startIntent( MainActivity.class );
                                                     dialog.dismiss();
+                                                    startIntent( MainActivity.class );
                                                     finish();
                                                 }else {
-//                                                    Log.d( "Login-------->",login_result );
                                                     showToast( R.string.nointernet );
                                                     dialog.dismiss();
                                                 }
@@ -108,7 +92,7 @@ public class LoginActivity extends BaseActivity {
                                         e.printStackTrace();
                                     }
                                 }
-                            } ).start();
+                            } );
                         }
                     }
                 }
@@ -118,16 +102,13 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void setContentView() {
-        setContentView( R.layout.activity_login );
-    }
+    public void setContentView() {}
 
     @Override
     public void initViews() {
-        et_username=(EditText)findViewById( R.id.et_username );
-        et_password=(EditText)findViewById( R.id.et_password );
-        login=(Button)findViewById( R.id.img_login );
-        drawBackGround();
+        et_username = findViewById( R.id.et_username );
+        et_password = findViewById( R.id.et_password );
+        login= findViewById( R.id.img_login );
     }
 
     @Override
@@ -170,20 +151,24 @@ public class LoginActivity extends BaseActivity {
         return false;
     }
 
-    private String parseJSONwithJSONObject(String jsonData){
+    private void parseJSONwithJSONObject(String jsonData){
         String parseData = null;
         try {
-                JSONObject jsonObject=new JSONObject( jsonData );
-                xm=jsonObject.getString( "xm" );
-                String xszp=jsonObject.getString( "xszp" );
-                String xb=jsonObject.getString( "xb" );
-                String sf=jsonObject.getString( "sf" );
-                parseData=xm+","+xszp+","+xb+","+sf;
-
+            JSONObject jsonObject=new JSONObject( jsonData );
+            xm=jsonObject.getString( "xm" );
+            String xszp=jsonObject.getString( "xszp" );
+            String xb=jsonObject.getString( "xb" );
+            String sf=jsonObject.getString( "sf" );
+            nameEditor.putString(SharePreferenceHelper.STUDENT_NAME, xm);
+            nameEditor.putString(SharePreferenceHelper.PICTURE, xszp);
+            nameEditor.putString(SharePreferenceHelper.STUDENT_GENDER, xb);
+            nameEditor.putString(SharePreferenceHelper.STUDENT_STATUS, sf);
+            nameEditor.putString(SharePreferenceHelper.STUDENT_NUMBER, user);
+            nameEditor.putString(SharePreferenceHelper.PASSWORD, pass);
+            nameEditor.apply();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return parseData;
     }
 
 //    public Bitmap getBitmap(String path) throws IOException {
@@ -208,13 +193,4 @@ public class LoginActivity extends BaseActivity {
 //        return bitmap;
 //    }
 
-    private void drawBackGround(){
-        FrameLayout ll=(FrameLayout) findViewById(R.id.login_frame);
-        final DrawView view=new DrawView(LoginActivity.this);
-        view.setMinimumHeight(100);
-        view.setMinimumWidth(400);
-        //通知view组件重绘
-        view.invalidate();
-        ll.addView(view);
-    }
 }

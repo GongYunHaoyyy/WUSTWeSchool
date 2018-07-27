@@ -7,12 +7,10 @@
     android:layout_margin="2dp">
 
     <LinearLayout
-        android:id="@+id/g_xkjd_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="8dp"
-        android:background="@drawable/selector_selectbtn">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/g_xklb"

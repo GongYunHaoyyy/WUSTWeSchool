@@ -39,8 +39,6 @@ public class XKJDAdapter extends RecyclerView.Adapter<XKJDAdapter.ViewHolder>{
             public void onClick(View v) {
                 int position=viewHolder.getAdapterPosition();
                 Xkjieduan myxkjdcreate=myXK.get( position );
-                viewHolder.xkjdview.setSelected( true );
-                Toast.makeText( v.getContext(),"你选择了:"+myxkjdcreate.getXklb()+",点击确认进入",Toast.LENGTH_SHORT ).show();
 
                 @SuppressLint("CommitPrefEdits") SharedPreferences.Editor nameeditor = context.getSharedPreferences( "xzxkjd", MODE_PRIVATE ).edit( );
                 nameeditor.putString( "getxzxkjd",xh+","+myxkjdcreate.getJx0502id()+","+myxkjdcreate.getXnmc() );
@@ -78,17 +76,17 @@ public class XKJDAdapter extends RecyclerView.Adapter<XKJDAdapter.ViewHolder>{
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout xkjdview;
+        View xkjdview;
         TextView mxklb,mxkkssj,mxkjzsj,mxkjd,mxnmc;
 
         ViewHolder(View itemView) {
             super( itemView );
+            xkjdview = itemView;
             mxklb=itemView.findViewById( R.id.g_xklb );
             mxkkssj=itemView.findViewById( R.id.g_xkkssj );
             mxkjzsj=itemView.findViewById( R.id.g_xkjzsj );
             mxkjd=itemView.findViewById( R.id.g_xkjd );
             mxnmc=itemView.findViewById( R.id.g_xnmc );
-            xkjdview=itemView.findViewById( R.id.g_xkjd_view );
         }
     }
 }

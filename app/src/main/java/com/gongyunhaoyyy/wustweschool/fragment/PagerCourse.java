@@ -28,13 +28,9 @@ import android.widget.TextView;
 import com.gongyunhaoyyy.wustweschool.adapter.AbsGridAdapter;
 import com.gongyunhaoyyy.wustweschool.base.BaseFragment;
 import com.gongyunhaoyyy.wustweschool.bean.Course;
-import com.gongyunhaoyyy.wustweschool.bean.CoursebeanforGson;
-import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
 import com.gongyunhaoyyy.wustweschool.R;
 import com.gongyunhaoyyy.wustweschool.ui.courseSetPopwindow;
 import com.gongyunhaoyyy.wustweschool.bean.Coursebean;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.litepal.crud.DataSupport;
 
@@ -378,252 +374,70 @@ public class PagerCourse extends BaseFragment implements View.OnClickListener,Ad
 
     public void fillStringArray(int myZCrecevive) {
         int myZC;
-        if (myZCrecevive!=0){
-            myZC=myZCrecevive;
-        }else {
-            SharedPreferences zzcc=mContext.getSharedPreferences( "zhouci", MODE_PRIVATE );
-            myZC=zzcc.getInt( "huoquzhouci",1 );
+        if (myZCrecevive != 0) {
+            myZC = myZCrecevive;
+        } else {
+            SharedPreferences zzcc = mContext.getSharedPreferences( "zhouci", MODE_PRIVATE );
+            myZC = zzcc.getInt( "huoquzhouci", 1 );
         }
         contents = new String[6][7][2];
-        for (i=0;i<6;i++){
-            for (j=0;j<7;j++){
-                contents[i][j][0]="";
+        for (i = 0; i < 6; i++) {
+            for (j = 0; j < 7; j++) {
+                contents[i][j][0] = "";
             }
         }
 
-        for (int s=0;s<course_list.size();s++){
-            int kkzc1s=course_list.get( s ).getKkzc1s();
-            int kkzc1e=course_list.get( s ).getKkzc1e();
-            int kkzc2s=course_list.get( s ).getKkzc2s();
-            int kkzc2e=course_list.get( s ).getKkzc2e();
-            int kkzc3s=course_list.get( s ).getKkzc3s();
-            int kkzc3e=course_list.get( s ).getKkzc3e();
-            int kcxq1=course_list.get( s ).getKcxq1();
-            int kcxq2=course_list.get( s ).getKcxq2();
-            int kcxq3=course_list.get( s ).getKcxq3();
-            int kcjc1=course_list.get( s ).getKcjc1();
-            int kcjc2=course_list.get( s ).getKcjc2();
-            int kcjc3=course_list.get( s ).getKcjc3();
+        for (int s = 0; s < course_list.size( ); s++) {
+            int kkzc1s = course_list.get( s ).getKkzc1s( );
+            int kkzc1e = course_list.get( s ).getKkzc1e( );
+            int kkzc2s = course_list.get( s ).getKkzc2s( );
+            int kkzc2e = course_list.get( s ).getKkzc2e( );
+            int kkzc3s = course_list.get( s ).getKkzc3s( );
+            int kkzc3e = course_list.get( s ).getKkzc3e( );
+            int kcxq1 = course_list.get( s ).getKcxq1( );
+            int kcxq2 = course_list.get( s ).getKcxq2( );
+            int kcxq3 = course_list.get( s ).getKcxq3( );
+            int kcjc1 = course_list.get( s ).getKcjc1( );
+            int kcjc2 = course_list.get( s ).getKcjc2( );
+            int kcjc3 = course_list.get( s ).getKcjc3( );
 
-            for (int n=0;n<course_list.get( s ).getP_jsmc().length;n++){
-                if (course_list.get( s ).getKkzc()==null){
+            for (int n = 0; n < course_list.get( s ).getP_jsmc( ).length; n++) {
+                if (course_list.get( s ).getKkzc( ) == null) {
                     continue;
                 }
-                if (kcjc1==-1){
+                if (kcjc1 == -1) {
                     continue;
                 }
-                if (kcjc2==-1){
-                    if (n!=0){
+                if (kcjc2 == -1) {
+                    if (n != 0) {
                         continue;
                     }
-                    if (kkzc1s<=myZC&&kkzc1e>=myZC){
-                        contents[kcjc1][kcxq1-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getJsmc1();
-                        contents[kcjc1][kcxq1-1][1]= String.valueOf( course_list.get( s ).getId() );
+                    if (kkzc1s <= myZC && kkzc1e >= myZC) {
+                        contents[kcjc1][kcxq1 - 1][0] = course_list.get( s ).getKcmc( ) + "@" + course_list.get( s ).getJsmc1( );
+                        contents[kcjc1][kcxq1 - 1][1] = String.valueOf( course_list.get( s ).getId( ) );
                         continue;
                     }
                 }
-                if (kcjc3==-1){
-                    if (n!=0&&n!=1){
+                if (kcjc3 == -1) {
+                    if (n != 0 && n != 1) {
                         continue;
                     }
-                    if (kkzc2s<=myZC&&kkzc2e>=myZC){
-                        contents[kcjc2][kcxq2-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getJsmc2();
-                        contents[kcjc2][kcxq2-1][1]= String.valueOf( course_list.get( s ).getId() );
+                    if (kkzc2s <= myZC && kkzc2e >= myZC) {
+                        contents[kcjc2][kcxq2 - 1][0] = course_list.get( s ).getKcmc( ) + "@" + course_list.get( s ).getJsmc2( );
+                        contents[kcjc2][kcxq2 - 1][1] = String.valueOf( course_list.get( s ).getId( ) );
                     }
-                }else {
-                    if (n!=0&&n!=1){
-                        if (kkzc3s<=myZC&&kkzc3e>=myZC){
-                            contents[kcjc3][kcxq3-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getJsmc3();
-                            contents[kcjc3][kcxq3-1][1]= String.valueOf( course_list.get( s ).getId() );
+                } else {
+                    if (n != 0 && n != 1) {
+                        if (kkzc3s <= myZC && kkzc3e >= myZC) {
+                            contents[kcjc3][kcxq3 - 1][0] = course_list.get( s ).getKcmc( ) + "@" + course_list.get( s ).getJsmc3( );
+                            contents[kcjc3][kcxq3 - 1][1] = String.valueOf( course_list.get( s ).getId( ) );
                         }
                     }
                 }
             }
         }
 
-//        //用s遍历course_list
-//        for (int s=0;s<course_list.size();s++){
-//            int[] kkzc_start = new int[10];
-//            int[] kkzc_end = new int[10];
-//            //用k遍历第s个course_list的粗略周次
-//            if (course_list.get( s ).getP_kkzc_c()==null||course_list.get( s ).getP_jsmc()==null){
-//                continue;
-//            }else {
-//                for (int k=0;k<course_list.get( s ).getP_kkzc_c().length;k++){
-//                    String[] p_kkzc_c2=course_list.get( s ).getP_kkzc_c();
-//                    //解析开课周次，在parseCourse()中已经粗略用","分割了，现在再次按"-"分割
-//                    //长度大于等于3说明有"-"，要分割
-//                    if (p_kkzc_c2[k].length()>=3){
-//                        kkzc_start[k]=Integer.parseInt( p_kkzc_c2[k].split( "-" )[0] );
-//                        kkzc_end[k]=Integer.parseInt( p_kkzc_c2[k].split( "-" )[1] );
-//                    }else {
-//                        kkzc_start[k]=Integer.parseInt( p_kkzc_c2[k] );
-//                        kkzc_end[k]=Integer.parseInt( p_kkzc_c2[k] );
-//                    }
-                    //用教室个数与时间周次对应
-//                    for (int n=0;n<course_list.get( s ).getP_jsmc().length;n++){
-//                        if (course_list.get( s ).getP_kcjc().length<=course_list.get( s ).getP_jsmc().length){
-//                            continue;
-//                        }
-//                        int[] p_kcjc_d=getkcjc( course_list.get( s ).getP_kcjc() );
-////                        Log.d( "Course----------->", " "+course_list.get( s ).getP_kcjc()[n]);
-//                        if (course_list.get( s ).getKkzc()==null){
-//                            continue;
-//                        }
-//
-//                        Log.d( "Course----------->", " "+p_kcjc_d[n]);
-//
-//                        if (p_kcjc_d[0]==0){
-//                            continue;
-//                        }
-//
-//
-//                        //开课节次,开课星期
-//                        if (kkzc_start[n]<=myZC&&kkzc_end[n]>=myZC){
-//                            //用1，2，3，4,5表示第几大节,6,7分别表示12节和34节连着上
-//                            if (p_kcjc_d[n]>5){
-//                                if (p_kcjc_d[n]==6){
-//                                    contents[1][course_list.get( s ).getP_kcxq()[n]-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getP_jsmc()[n];
-//                                    contents[2][course_list.get( s ).getP_kcxq()[n]-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getP_jsmc()[n];
-//                                    contents[p_kcjc_d[n]%6][course_list.get( s ).getP_kcxq()[n]-1][1]= String.valueOf( course_list.get( s ).getId() );
-//                                }else {
-//                                    contents[3][course_list.get( s ).getP_kcxq()[n]-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getP_jsmc()[n];
-//                                    contents[4][course_list.get( s ).getP_kcxq()[n]-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getP_jsmc()[n];
-//                                    contents[p_kcjc_d[n]%6][course_list.get( s ).getP_kcxq()[n]-1][1]= String.valueOf( course_list.get( s ).getId() );
-//                                }
-//                            }else {
-//                                contents[p_kcjc_d[n]%6][course_list.get( s ).getP_kcxq()[n]-1][0]=course_list.get( s ).getKcmc()+"@"+course_list.get( s ).getP_jsmc()[n];
-//                                contents[p_kcjc_d[n]%6][course_list.get( s ).getP_kcxq()[n]-1][1]= String.valueOf( course_list.get( s ).getId() );
-//                            }
-//                        }
-//
-//
-//
-//                    }
-
-//                }
-//            }
-
-//        }
-
     }
-
-//    private int[] getkcjc(String[] kcjc){
-//        int[] mykcjc = new int[10];
-//        if (kcjc[0]==null){
-//            return new int[]{0};
-//        }else {
-//            for (int h=0;h<kcjc.length;h++){
-//                if (kcjc[h].equals( "0102" )){
-//                    mykcjc[h]=1;
-//                }else if (kcjc[h].equals( "0304" )){
-//                    mykcjc[h]=2;
-//                }else if (kcjc[h].equals( "0506" )){
-//                    mykcjc[h]=3;
-//                }else if (kcjc[h].equals( "0708" )){
-//                    mykcjc[h]=4;
-//                }else if (kcjc[h].equals( "0910" )){
-//                    mykcjc[h]=5;
-//                }else if (kcjc[h].equals( "01020304" )){
-//                    mykcjc[h]=6;
-//                }else if (kcjc[h].equals( "05060708" )){
-//                    mykcjc[h]=7;
-//                }else {
-//                    mykcjc[h]=0;
-//                }
-//            }
-//        }
-//        return mykcjc;
-//    }
-
-//    public List<Coursebean> parseCourse(){
-//        List<Coursebean> myCoursebean=new ArrayList<>(  );
-//        List<Course> myCourse=DataSupport.findAll( Course.class );
-//        for (Course coursebean:myCourse){
-//            myCoursebean.add( new Coursebean(coursebean.getId(),coursebean.getDwmc(),coursebean.getJsmc(),
-//                    coursebean.getKcxzmc(),coursebean.getKcsj(),coursebean.getKtmc(),coursebean.getKcsxm(),
-//                    coursebean.getJsxm(),coursebean.getXkjd(),coursebean.getZxs(),coursebean.getKkzc(),
-//                    coursebean.getKcmc(),coursebean.getXf() ) );
-//        }
-//
-//        for (int js=0;js<myCoursebean.size();js++){
-//            String[] p_kkzc_cu,p_jsmc = new String[0];
-//            int[] p_kcxq = new int[10];
-//            String[] p_kcxq_cu = new String[10];
-//            String[] p_kcjc_cu = new String[10];
-//            if (myCoursebean.get( js ).getKkzc()==null){
-//            }else {
-//                p_kkzc_cu=myCoursebean.get( js ).getKkzc().split( "," );//开课周次粗略
-//                if (myCoursebean.get( js ).getJsmc()!=null){
-//                    p_jsmc=myCoursebean.get( js ).getJsmc().split( "," );//教室完成^^
-//                }
-//                if (myCoursebean.get( js ).getKcsj()!=null){
-//                    p_kcxq_cu=myCoursebean.get( js ).getKcsj().split( "," );//粗略星期^^
-//                }
-//                for (int k=0;k<p_kcxq_cu.length;k++){
-//                    if (p_kcxq_cu[k]!=null){
-//                        p_kcxq[k]= Integer.parseInt( p_kcxq_cu[k].substring( 0,1 ) );//星期完成^^
-//                        p_kcjc_cu[k]= p_kcxq_cu[k].substring( 1,p_kcxq_cu[k].length());//0304^^
-//                    }
-//                }
-//                if (myCoursebean.get( js ).getJsmc()==null||myCoursebean.get( js ).getKkzc()==null||myCoursebean.get( js ).getKcsj()==null){
-//                    continue;
-//                }else {
-//                    myCoursebean.get( js ).setP_kkzc_c( p_kkzc_cu );
-//                    myCoursebean.get( js ).setP_kcxq( p_kcxq );
-//                    myCoursebean.get( js ).setP_kcjc( p_kcjc_cu );
-//                    myCoursebean.get( js ).setP_jsmc( p_jsmc );
-//                }
-//            }
-//        }
-//        return myCoursebean;
-//    }
-
-//    /**
-//     *
-//     * @param xh 学号
-//     * @param xq 学期
-//     * 联网获取课表并保存到数据库
-//     */
-//    public void linkInternetForCourse(final String xh, final String xq){
-//        final String[] coursestr = new String[1];
-//        new Thread( new Runnable( ) {
-//            @Override
-//            public void run() {
-//                try {
-//                    Ksoap2 ksoap2=new Ksoap2();
-//                    coursestr[0] = ksoap2.getCourseInfo( xh,xq );
-//                    Gson gson=new Gson();
-//                    List<CoursebeanforGson> slist=gson.fromJson( coursestr[0],new TypeToken<List<CoursebeanforGson>>(){}.getType());
-//                    for (int i=0;i<slist.size();i++){
-//                        Course course=new Course();
-//                        //dwmc,jsmc,kcxzmc,kcsj,ktmc,kcsxm,jsxm,xkjd,zxs,kkzc,kcmc,xf
-//                        course.setDwmc( slist.get( i ).getDwmc() );
-//                        course.setJsmc( slist.get( i ).getJsmc() );
-//                        course.setKcxzmc( slist.get( i ).getKcxzmc() );
-//                        course.setKcsj( slist.get( i ).getKcsj() );
-//                        course.setKtmc( slist.get( i ).getKtmc() );
-//                        course.setKcsxm( slist.get( i ).getKcsxm() );
-//                        course.setJsxm( slist.get( i ).getJsxm() );
-//                        course.setXkjd( slist.get( i ).getXkjd() );
-//                        course.setZxs( slist.get( i ).getZxs() );
-//                        course.setKkzc( slist.get( i ).getKkzc() );
-//                        course.setKcmc( slist.get( i ).getKcmc() );
-//                        course.setXf( slist.get( i ).getXf() );
-//                        course.save();
-//                    }
-//                    getActivity().runOnUiThread( new Runnable( ) {
-//                        @Override
-//                        public void run() {
-//                            dialog.dismiss();
-//                        }
-//                    } );
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        } ).start();
-//    }
 
     public void DeleteCourse(){
         DataSupport.deleteAll( Course.class );

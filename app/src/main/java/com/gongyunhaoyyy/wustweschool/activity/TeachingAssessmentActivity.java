@@ -6,6 +6,11 @@ import android.widget.TextView;
 import com.gongyunhaoyyy.wustweschool.base.BaseActivity;
 import com.gongyunhaoyyy.wustweschool.R;
 import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
+import com.gongyunhaoyyy.wustweschool.util.ThreadPoolManager;
+
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 public class TeachingAssessmentActivity extends BaseActivity{
 
@@ -16,19 +21,27 @@ public class TeachingAssessmentActivity extends BaseActivity{
         setContentView( R.layout.activity_teaching_assessment);
         final TextView textView=findViewById( R.id.hhhhhhasdf );
 
-        new Thread( new Runnable( ) {
+        ThreadPoolManager.getInstance().addExecuteTask( new Runnable( ) {
             @Override
             public void run() {
-                final String aosdh= Ksoap2.getCourseInfo( "201613137110","2017-2018-2" );
+                String aosdh = null;
+                try {
+//                    aosdh = Ksoap2.getCourseInfo( "201613137110","2018-2019-1" );
+                    aosdh = Ksoap2.getTerm();
+                } catch (IOException e) {
+                    e.printStackTrace( );
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace( );
+                }
+                final String finalAosdh = aosdh;
                 runOnUiThread( new Runnable( ) {
                     @Override
                     public void run() {
-                        textView.setText( aosdh );
+                        textView.setText( finalAosdh );
                     }
                 } );
             }
-        } ).start();
-
+        } );
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.gongyunhaoyyy.wustweschool.bean.Course;
+import com.gongyunhaoyyy.wustweschool.util.SharePreferenceHelper;
 import com.gongyunhaoyyy.wustweschool.yuanlai.yuanlai.card.card_login_activity;
 import com.gongyunhaoyyy.wustweschool.activity.LoginActivity;
 import com.gongyunhaoyyy.wustweschool.base.BaseFragment;
@@ -137,7 +138,7 @@ public class PagerAboutUs extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        SharedPreferences.Editor nameeditor = mContextUs.getSharedPreferences( "userdata", MODE_PRIVATE ).edit( );
+        SharedPreferences.Editor nameeditor = mContextUs.getSharedPreferences( SharePreferenceHelper.USER_DATE, MODE_PRIVATE ).edit( );
         switch (v.getId()){
             case R.id.exit_button:
                 nameeditor.putString( "getuserdata","" );
