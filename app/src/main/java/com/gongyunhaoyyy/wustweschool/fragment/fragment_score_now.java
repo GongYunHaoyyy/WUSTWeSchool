@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.gongyunhaoyyy.wustweschool.adapter.ScoreAdapter;
 import com.gongyunhaoyyy.wustweschool.base.BaseFragment;
 import com.gongyunhaoyyy.wustweschool.R;
-import com.gongyunhaoyyy.wustweschool.bean.score;
+import com.gongyunhaoyyy.wustweschool.bean.Score;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +25,14 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class fragment_score_now extends BaseFragment {
     TextView null_n, averige_n;
-    private List<score> mScorelist_now = new ArrayList<>( );
+    private List<Score> mScorelist_now = new ArrayList<>( );
     private int number = 0;
     StaggeredGridLayoutManager layoutManager;
     RecyclerView recycler_score;
     private ScoreAdapter adapter;
 
     @SuppressLint("ValidFragment")
-    public fragment_score_now(List<score> scorelist_n) {
+    public fragment_score_now(List<Score> scorelist_n) {
         mScorelist_now.addAll( scorelist_n );
     }
 
@@ -47,7 +47,7 @@ public class fragment_score_now extends BaseFragment {
         layoutManager=new StaggeredGridLayoutManager( 1,StaggeredGridLayoutManager.VERTICAL );
         recycler_score.setLayoutManager( layoutManager );
 
-        for (score ssss:mScorelist_now){
+        for (Score ssss:mScorelist_now){
             number++;
         }
         //空的成绩~~

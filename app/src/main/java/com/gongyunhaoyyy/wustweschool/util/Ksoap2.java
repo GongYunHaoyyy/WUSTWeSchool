@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class Ksoap2 {
 
-    private static final String key="webservice_whkdapp";
+    private static final String KEY ="webservice_whkdapp";
     // 命名空间
     private static final String nameSpace = "http://webservices.qzdatasoft.com";
     // EndPoint
@@ -108,7 +108,7 @@ public class Ksoap2 {
     static String getResult(String paramString, SoapObject paramSoapObject, int paramInt) throws IOException, XmlPullParserException {
         Date localDate = new Date();
         String str1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(localDate);
-        String str2 = Md5Util.MD5(key + str1).substring(2).toLowerCase();
+        String str2 = Md5Util.MD5(KEY  + str1).substring(2).toLowerCase();
         int i = paramInt + 1;
         paramSoapObject.addProperty("in"+paramInt, str1);
         paramSoapObject.addProperty("in"+i, str2);

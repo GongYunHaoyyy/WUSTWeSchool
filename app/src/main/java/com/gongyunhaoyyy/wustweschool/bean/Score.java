@@ -1,23 +1,16 @@
 package com.gongyunhaoyyy.wustweschool.bean;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by acer on 2017/10/23.
  */
 
-public class score {
+public class Score extends DataSupport{
+
     private String jd,zxs,kclbmc,zcj,kkxq,kcxzmc,ksxzmc,kcmc,xf;
 
-    public score(String jd, String zxs, String kclbmc, String zcj, String kkxq, String kcxzmc, String ksxzmc, String kcmc, String xf) {
-        this.jd = jd;
-        this.zxs = zxs;
-        this.kclbmc = kclbmc;
-        this.zcj = zcj;
-        this.kkxq = kkxq;
-        this.kcxzmc = kcxzmc;
-        this.ksxzmc = ksxzmc;
-        this.kcmc = kcmc;
-        this.xf = xf;
-    }
+    public Score() {}
 
     public String getJd() {
         return jd;

@@ -10,32 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.util.SimpleArrayMap;
 
-//    ┏┓　   ┏┓
-// ┏━━┛┻━━━━━┛┻ ┓ 
-// ┃　　　　　　 ┃  
-// ┃　　　━　    ┃  
-// ┃　＞　　＜　 ┃  
-// ┃　　　　　　 ┃  
-// ┃... ⌒ ...  ┃  
-// ┃　　　　　 　┃  
-// ┗━━━┓　　　┏━┛  
-//     ┃　　　┃　  
-//     ┃　　　┃  
-//     ┃　　　┃  神兽保佑  
-//     ┃　　　┃  代码无bug　　  
-//     ┃　　　┃  
-//     ┃　　　┗━━━━━━━━━┓
-//     ┃　　　　　　　    ┣┓
-//     ┃　　　　         ┏┛
-//     ┗━┓ ┓ ┏━━━┳ ┓ ┏━┛
-//       ┃ ┫ ┫   ┃ ┫ ┫
-//       ┗━┻━┛   ┗━┻━┛
-//
-//  作者：棒棒小糖
-//  來源：简书
-//
-//  Creste by GongYunHao on 2018/2/23
-// 
 public class PermissionUtils {
 
     // Map of dangerous permissions introduced in later framework versions.

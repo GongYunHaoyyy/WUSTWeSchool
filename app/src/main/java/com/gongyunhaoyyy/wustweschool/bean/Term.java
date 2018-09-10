@@ -1,5 +1,7 @@
 package com.gongyunhaoyyy.wustweschool.bean;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * 学期
  * @author: Gong Yunhao
@@ -8,7 +10,7 @@ package com.gongyunhaoyyy.wustweschool.bean;
  * @github https://github.com/GongYunHaoyyy
  * @blog https://www.jianshu.com/u/52a8fa1f29fb
  */
-public class Term {
+public class Term extends DataSupport{
     /**
      * xnxq01id : 2018-2019-1
      */

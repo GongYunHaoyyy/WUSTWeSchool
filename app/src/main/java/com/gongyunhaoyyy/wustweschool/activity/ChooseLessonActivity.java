@@ -1,5 +1,6 @@
 package com.gongyunhaoyyy.wustweschool.activity;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,9 @@ import com.gongyunhaoyyy.wustweschool.base.BaseActivity;
 import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
 import com.gongyunhaoyyy.wustweschool.R;
 import com.gongyunhaoyyy.wustweschool.bean.Xkjieduan;
+import com.gongyunhaoyyy.wustweschool.util.SharePreferenceHelper;
 import com.gongyunhaoyyy.wustweschool.util.ThreadPoolManager;
+import com.gongyunhaoyyy.wustweschool.util.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseLessonActivity extends BaseActivity{
-    private AlertDialog dialog;
     private String strxkjd,xh;
     private List<Xkjieduan> myXKjd=new ArrayList<>();
     private RecyclerView rec_xkjd;
@@ -29,9 +31,10 @@ public class ChooseLessonActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        xh=getUserData()[0];
+        SharedPreferences ud=getSharedPreferences( SharePreferenceHelper.USER_DATE, MODE_PRIVATE );
+        xh=ud.getString(SharePreferenceHelper.STUDENT_NUMBER, "");
         layoutManager=new StaggeredGridLayoutManager( 2,StaggeredGridLayoutManager.VERTICAL );
-        dialog.show();
+        ToastUtil.loadingDialog("拼命加载中...",false);
         ThreadPoolManager.getInstance().addExecuteTask(runnable);
     }
 
@@ -45,8 +48,8 @@ public class ChooseLessonActivity extends BaseActivity{
                     @Override
                     public void run() {
                         if (strxkjd.length()<15){
-                            showToast( strxkjd );
-                            dialog.dismiss();
+                            ToastUtil.showToast( strxkjd );
+                            ToastUtil.cancel();
                             finish();
                         }else {
                             Gson gson=new Gson();
@@ -55,7 +58,7 @@ public class ChooseLessonActivity extends BaseActivity{
                             XKJDAdapter myXKJDadapter=new XKJDAdapter( myXKjd,xh,ChooseLessonActivity.this );
                             rec_xkjd.setLayoutManager( layoutManager );
                             rec_xkjd.setAdapter( myXKJDadapter );
-                            dialog.dismiss();
+                            ToastUtil.cancel();
                         }
                     }
                 } );
@@ -78,7 +81,6 @@ public class ChooseLessonActivity extends BaseActivity{
     @Override
     public void initViews() {
         rec_xkjd= (RecyclerView) findViewById( R.id.rec_choose_skjd );
-        dialog=loadingDialog( "拼命加载中...",false );
     }
 
     @Override

@@ -51,4 +51,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation files('libs/ksoap2-android-assembly-3.0.0-jar-with-dependencies.jar')
     implementation files('libs/jsoup-1.10.3.jar')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

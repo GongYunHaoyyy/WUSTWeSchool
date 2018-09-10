@@ -2,7 +2,6 @@ package com.gongyunhaoyyy.wustweschool.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,14 +12,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 
 import com.gongyunhaoyyy.wustweschool.base.BaseActivity;
 import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
 import com.gongyunhaoyyy.wustweschool.R;
-import com.gongyunhaoyyy.wustweschool.ui.DrawView;
 import com.gongyunhaoyyy.wustweschool.util.SharePreferenceHelper;
 import com.gongyunhaoyyy.wustweschool.util.ThreadPoolManager;
+import com.gongyunhaoyyy.wustweschool.util.ToastUtil;
 
 import org.json.JSONObject;
 
@@ -29,7 +27,6 @@ public class LoginActivity extends BaseActivity {
     private Button login;
     private String login_result,user,pass,xm;
     private String[] reslut2;
-    private AlertDialog dialog;
     private SharedPreferences.Editor nameEditor;
 
     @SuppressLint("CommitPrefEdits")
@@ -37,8 +34,8 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         SharedPreferences ud=getSharedPreferences( SharePreferenceHelper.USER_DATE, MODE_PRIVATE );
-        String uddt=ud.getString(SharePreferenceHelper.IS_LOGIN,"" );
-        if (!uddt.isEmpty()){
+        boolean isLogin = ud.getBoolean(SharePreferenceHelper.IS_LOGIN, false);
+        if (isLogin){
             startActivity(MainActivity.newIntent(LoginActivity.this));
             finish();
         }else {
@@ -47,19 +44,18 @@ public class LoginActivity extends BaseActivity {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             initViews();
-            dialog=loadingDialog( "小园登陆中...",false );
             login.setOnClickListener( new View.OnClickListener( ) {
                 @Override
                 public void onClick(View v) {
                     user=et_username.getText().toString();
                     pass=et_password.getText().toString();
                     if (user.length()!=12||pass.length()<4){
-                        showToast( "输入有误" );
+                        ToastUtil.showToast( "输入有误" );
                     } else {
                         if (!isNetworkAvailable( LoginActivity.this )){
-                            showToast( R.string.nointernet );
+                            ToastUtil.showToast( R.string.nointernet );
                         }else {
-                            dialog.show();
+                            ToastUtil.loadingDialog("小园登陆中...", false);
                             ThreadPoolManager.getInstance().addExecuteTask( new Runnable( ) {
                                 @Override
                                 public void run() {
@@ -73,17 +69,17 @@ public class LoginActivity extends BaseActivity {
                                             @Override
                                             public void run() {
                                                 if (reslut2[0].equals( "0" )){// 登录失败
-                                                    showToast( reslut2[1] );
-                                                    dialog.dismiss();
+                                                    ToastUtil.showToast( reslut2[1] );
+                                                    ToastUtil.cancelDialog();
                                                 }else if (reslut2[0].equals( "1" )){// 登录成功
                                                     parseJSONwithJSONObject(login_result.substring( 3,login_result.length()-1 ));
-                                                    showToast( xm+"，欢迎你~" );
-                                                    dialog.dismiss();
+                                                    ToastUtil.showToast( xm+"，欢迎你~" );
+                                                    ToastUtil.cancelDialog();
                                                     startIntent( MainActivity.class );
                                                     finish();
                                                 }else {
-                                                    showToast( R.string.nointernet );
-                                                    dialog.dismiss();
+                                                    ToastUtil.showToast( R.string.nointernet );
+                                                    ToastUtil.cancelDialog();
                                                 }
                                             }
                                         } );
@@ -152,13 +148,13 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void parseJSONwithJSONObject(String jsonData){
-        String parseData = null;
         try {
             JSONObject jsonObject=new JSONObject( jsonData );
             xm=jsonObject.getString( "xm" );
             String xszp=jsonObject.getString( "xszp" );
             String xb=jsonObject.getString( "xb" );
             String sf=jsonObject.getString( "sf" );
+            nameEditor.putBoolean(SharePreferenceHelper.IS_LOGIN, true);
             nameEditor.putString(SharePreferenceHelper.STUDENT_NAME, xm);
             nameEditor.putString(SharePreferenceHelper.PICTURE, xszp);
             nameEditor.putString(SharePreferenceHelper.STUDENT_GENDER, xb);

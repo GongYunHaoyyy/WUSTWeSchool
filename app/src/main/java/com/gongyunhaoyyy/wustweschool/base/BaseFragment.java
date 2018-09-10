@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gongyunhaoyyy.wustweschool.R;
-import com.gongyunhaoyyy.wustweschool.bean.score;
+import com.gongyunhaoyyy.wustweschool.bean.Score;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.SimpleDateFormat;
@@ -19,32 +19,6 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-//    ┏┓　   ┏┓
-// ┏━━┛┻━━━━━┛┻ ┓ 
-// ┃　　　　　　 ┃  
-// ┃　　　━　    ┃  
-// ┃　＞　　＜　 ┃  
-// ┃　　　　　　 ┃  
-// ┃... ⌒ ...  ┃  
-// ┃　　　　　 　┃  
-// ┗━━━┓　　　┏━┛  
-//     ┃　　　┃　  
-//     ┃　　　┃  
-//     ┃　　　┃  神兽保佑  
-//     ┃　　　┃  代码无bug　　  
-//     ┃　　　┃  
-//     ┃　　　┗━━━━━━━━━┓
-//     ┃　　　　　　　    ┣┓
-//     ┃　　　　         ┏┛
-//     ┗━┓ ┓ ┏━━━┳ ┓ ┏━┛
-//       ┃ ┫ ┫   ┃ ┫ ┫
-//       ┗━┻━┛   ┗━┻━┛
-//
-//  作者：棒棒小糖
-//  來源：简书
-//
-//  Creste by GongYunHao on 2018/2/21
-// 
 public class BaseFragment extends Fragment{
 
     public Intent getIntent(Class clazz) {
@@ -117,12 +91,12 @@ public class BaseFragment extends Fragment{
      * 平均绩点=∑学分*绩点　÷　∑学分
      * @return
      */
-    public double ComputeAverigeScore(List<score> mScorelist){
+    public double ComputeAverigeScore(List<Score> mScorelist){
         double xfccjh=0,xfzh=0;//学分×成绩和，学分总和
         if (mScorelist.size()<1){
             return 0.0;
         }else {
-            for (score mysc:mScorelist){
+            for (Score mysc:mScorelist){
                 xfccjh+=Double.parseDouble( mysc.getJd() )*Double.parseDouble( mysc.getXf() );
                 xfzh+=Double.parseDouble( mysc.getXf() );
             }

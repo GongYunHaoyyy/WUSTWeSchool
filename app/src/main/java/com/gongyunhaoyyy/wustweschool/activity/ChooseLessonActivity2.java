@@ -12,6 +12,8 @@ import com.gongyunhaoyyy.wustweschool.base.BaseActivity;
 import com.gongyunhaoyyy.wustweschool.R;
 import com.gongyunhaoyyy.wustweschool.bean.KYkecheng;
 import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
+import com.gongyunhaoyyy.wustweschool.util.ThreadPoolManager;
+import com.gongyunhaoyyy.wustweschool.util.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,7 +25,6 @@ public class ChooseLessonActivity2 extends BaseActivity {
     private List<KYkecheng> mKYkechengmx=new ArrayList<>(  );
     private StaggeredGridLayoutManager mlayoutManager;
     private RecyclerView xklbmxrecycler;
-    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,13 @@ public class ChooseLessonActivity2 extends BaseActivity {
         initData();
         setContentView( R.layout.activity_choose_lesson2 );
         initViews();
-        dialog.show();
-        new Thread( new Runnable( ) {
+        ToastUtil.loadingDialog("拼命加载中...",false);
+        ThreadPoolManager.getInstance().addExecuteTask( new Runnable( ) {
             @Override
             public void run() {
                 try {
                     Thread.sleep( 500 );
-                    Ksoap2 ksoap2=new Ksoap2();
-                    xklbmx=ksoap2.getKxkc( xkdetaildata.split( "," )[0],xkdetaildata.split( "," )[1],xkdetaildata.split( "," )[2],null,null,null );
+                    xklbmx= Ksoap2.getKxkc( xkdetaildata.split( "," )[0],xkdetaildata.split( "," )[1],xkdetaildata.split( "," )[2],null,null,null );
                     Gson gson=new Gson();
                     List<KYkecheng> xkjdlist=gson.fromJson( xklbmx,new TypeToken<List<KYkecheng>>(){}.getType());
                     mKYkechengmx.addAll( xkjdlist );
@@ -49,15 +49,14 @@ public class ChooseLessonActivity2 extends BaseActivity {
                             KYKCAdapter myKYKCadapter=new KYKCAdapter( mKYkechengmx );
                             xklbmxrecycler.setLayoutManager( mlayoutManager );
                             xklbmxrecycler.setAdapter( myKYKCadapter );
-                            dialog.dismiss();
+                            ToastUtil.cancel();
                         }
                     } );
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
-        } ).start();
-
+        } );
     }
 
     @Override
@@ -72,9 +71,8 @@ public class ChooseLessonActivity2 extends BaseActivity {
 
     @Override
     public void initViews() {
-        xklbmxrecycler=(RecyclerView)findViewById( R.id.recycler_xklbmx );
-        dialog=loadingDialog( "拼命加载中...",false );
-        mlayoutManager=new StaggeredGridLayoutManager( 1,StaggeredGridLayoutManager.VERTICAL );
+        xklbmxrecycler = findViewById( R.id.recycler_xklbmx );
+        mlayoutManager = new StaggeredGridLayoutManager( 1,StaggeredGridLayoutManager.VERTICAL );
     }
 
     @Override
@@ -87,7 +85,7 @@ public class ChooseLessonActivity2 extends BaseActivity {
         SharedPreferences myxkdata=getSharedPreferences( "xzxkjd",MODE_PRIVATE );
         xkdetaildata=myxkdata.getString( "getxzxkjd","" );
         if (xkdetaildata.isEmpty()){
-            showToast( "获取选课阶段信息出错!" );
+            ToastUtil.showToast( "获取选课阶段信息出错!" );
             finish();
         }
     }

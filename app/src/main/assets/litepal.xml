@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <litepal>
-    <dbname value="Course"/>
+    <dbname value="WustWeSchoolDB"/>
     <version value="1"/>
     <list>
         <mapping class="com.gongyunhaoyyy.wustweschool.bean.Course"/>
+        <mapping class="com.gongyunhaoyyy.wustweschool.bean.Score"/>
+        <mapping class="com.gongyunhaoyyy.wustweschool.bean.Term"/>
     </list>
 </litepal>

@@ -1,19 +1,22 @@
 package com.gongyunhaoyyy.wustweschool.activity;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
+
 import com.gongyunhaoyyy.wustweschool.adapter.ViewPagerAdapter;
 import com.gongyunhaoyyy.wustweschool.base.BaseActivity;
+import com.gongyunhaoyyy.wustweschool.bean.Term;
 import com.gongyunhaoyyy.wustweschool.util.Ksoap2;
 import com.gongyunhaoyyy.wustweschool.R;
-import com.gongyunhaoyyy.wustweschool.bean.score;
+import com.gongyunhaoyyy.wustweschool.bean.Score;
 import com.gongyunhaoyyy.wustweschool.fragment.fragment_score_all;
 import com.gongyunhaoyyy.wustweschool.fragment.fragment_score_now;
+import com.gongyunhaoyyy.wustweschool.util.SharePreferenceHelper;
 import com.gongyunhaoyyy.wustweschool.util.ThreadPoolManager;
+import com.gongyunhaoyyy.wustweschool.util.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,21 +28,21 @@ public class ScoreActivity extends BaseActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private ViewPagerAdapter vpAdapter;
-    private List<score> mScorelist_all=new ArrayList<>();
-    private List<score> mScorelist_now=new ArrayList<>();
+    private List<Score> mScorelist_all=new ArrayList<>();
+    private List<Score> mScorelist_now=new ArrayList<>();
     private List<String> mTitles=new ArrayList<>();
     private List<Fragment> list_fragment=new ArrayList<>();
-    private AlertDialog dialog;
+    private List<Term> mTerms = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        xh=getUserData()[0];
+        SharedPreferences ud=getSharedPreferences( SharePreferenceHelper.USER_DATE, MODE_PRIVATE );
+        xh=ud.getString(SharePreferenceHelper.STUDENT_NUMBER, "");
         mTitles.add( "全部成绩" );
         mTitles.add( "本学期成绩" );
         initViews();
-        dialog=loadingDialog( "拼命加载中...",false );
-        dialog.show();
+        ToastUtil.loadingDialog("拼命加载中...",false);
 
         ThreadPoolManager.getInstance().addExecuteTask( new Runnable( ) {
             @Override
@@ -47,11 +50,12 @@ public class ScoreActivity extends BaseActivity {
                 try {
                     score=Ksoap2.getScoreInfo( xh );
                     Gson gson=new Gson();
-                    List<score> slist=gson.fromJson( score,new TypeToken<List<score>>(){}.getType());
+                    List<Score> slist=gson.fromJson( score,new TypeToken<List<Score>>(){}.getType());
                     mScorelist_all.addAll( slist );
                     for (int i=0;i<slist.size();i++){
-                        if (slist.get( i ).getKkxq().equals( "2017-2018-2" ))
+                        if (slist.get( i ).getKkxq().equals( "2017-2018-2" )) {
                             mScorelist_now.add( slist.get( i ) );
+                        }
                     }
                     //回到主线程更新UI
                     runOnUiThread( new Runnable( ) {
@@ -62,7 +66,7 @@ public class ScoreActivity extends BaseActivity {
                             vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(), list_fragment, mTitles);
                             mViewPager.setAdapter(vpAdapter);
                             mTabLayout.setupWithViewPager( mViewPager );
-                            dialog.dismiss();
+                            ToastUtil.cancel();
                         }
                     } );
                 }catch (Exception e){

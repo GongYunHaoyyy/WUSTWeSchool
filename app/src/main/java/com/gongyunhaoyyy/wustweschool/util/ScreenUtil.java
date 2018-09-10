@@ -9,6 +9,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.gongyunhaoyyy.wustweschool.application.MyApplication;
+
 //  作者：棒棒小糖
 //  來源：简书
 //
@@ -57,8 +59,8 @@ public class ScreenUtil {
     }
 
     /** dp转px **/
-    public static int dp2px(float dpVal, Context mContext) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal, mContext.getResources().getDisplayMetrics());
+    public static int dp2px(float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal, MyApplication.getContext().getResources().getDisplayMetrics());
     }
 
     /**

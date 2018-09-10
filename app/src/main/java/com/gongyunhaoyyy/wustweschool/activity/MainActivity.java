@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.gongyunhaoyyy.wustweschool.adapter.ViewPagerAdapter;
 import com.gongyunhaoyyy.wustweschool.R;
 import com.gongyunhaoyyy.wustweschool.fragment.PagerAboutUs;
@@ -21,6 +19,7 @@ import com.gongyunhaoyyy.wustweschool.fragment.PagerCourse;
 import com.gongyunhaoyyy.wustweschool.fragment.PagerLibrary;
 import com.gongyunhaoyyy.wustweschool.fragment.PagerMain;
 import com.gongyunhaoyyy.wustweschool.fragment.PagerNews;
+import com.gongyunhaoyyy.wustweschool.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        tab_gyh=(TabLayout)findViewById( R.id.tabs );
+        tab_gyh = findViewById( R.id.tabs );
         //按名称加载tab名字列表.
         list_title = new ArrayList<>();
         list_title.add("首页");
@@ -91,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public View getTabView(int position) {
         View view = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
-        TextView txt_title = (TextView) view.findViewById(R.id.txt_tab);
+        TextView txt_title = view.findViewById(R.id.txt_tab);
         txt_title.setText(list_title.get(position));
-        ImageView img_title = (ImageView) view.findViewById(R.id.img_tab);
+        ImageView img_title = view.findViewById(R.id.img_tab);
         img_title.setImageResource(tabIcons[position]);
         return view;
     }
@@ -108,11 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void exit() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
-            Toast toast=Toast.makeText(getApplicationContext(), "再按一次退出程序",Toast.LENGTH_SHORT);
-//            View v= getLayoutInflater().inflate(R.layout.toast,null);
-//            toast.setView(v);
-//            toast.setGravity( Gravity.CENTER,0,0);
-            toast.show();
+            ToastUtil.showToast("再按一次退出程序");
             exitTime = System.currentTimeMillis();
         } else {
             finish();

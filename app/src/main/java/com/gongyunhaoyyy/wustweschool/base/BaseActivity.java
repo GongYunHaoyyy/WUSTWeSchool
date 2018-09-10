@@ -24,32 +24,6 @@ import com.gongyunhaoyyy.wustweschool.util.PermissionUtils;
 import com.wang.avi.AVLoadingIndicatorView;
 import java.text.SimpleDateFormat;
 
-//    ┏┓　   ┏┓
-// ┏━━┛┻━━━━━┛┻ ┓ 
-// ┃　　　　　　 ┃  
-// ┃　　　━　    ┃  
-// ┃　＞　　＜　 ┃  
-// ┃　　　　　　 ┃  
-// ┃... ⌒ ...  ┃  
-// ┃　　　　　 　┃  
-// ┗━━━┓　　　┏━┛  
-//     ┃　　　┃　  
-//     ┃　　　┃  
-//     ┃　　　┃  神兽保佑  
-//     ┃　　　┃  代码无bug　　  
-//     ┃　　　┃  
-//     ┃　　　┗━━━━━━━━━┓
-//     ┃　　　　　　　    ┣┓
-//     ┃　　　　         ┏┛
-//     ┗━┓ ┓ ┏━━━┳ ┓ ┏━┛
-//       ┃ ┫ ┫   ┃ ┫ ┫
-//       ┗━┻━┛   ┗━┻━┛
-//
-//  作者：棒棒小糖
-//  來源：简书
-//
-//  Creste by GongYunHao on 2018/2/21
-// 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener{
     private Activity mthis;
     protected int mScreenWidth;
@@ -76,47 +50,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initData();
     }
 
-    public Toast toast;
-    public void showToast(String text) {
-        if (toast == null) {
-            toast = Toast.makeText(mthis, text, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(text);
-        }
-        toast.show();
-    }
-
-    public void showToast(BaseActivity activity, String text) {
-        if (toast == null) {
-            toast = Toast.makeText(activity, text, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(text);
-        }
-        toast.show();
-    }
-
-    /**
-     * 显示带图片的Toast
-     * @param text  需要显示的文字
-     * @param imgId 需要显示的图片
-     */
-    public void showImageToast(String text, int imgId) {
-        Toast toast = Toast.makeText(mthis, text, Toast.LENGTH_SHORT);
-        toast.setText(text);
-        LinearLayout toastView = (LinearLayout) toast.getView();
-        toastView.setGravity( Gravity.CENTER);
-        ImageView toastImg = new ImageView(mthis);
-        toastImg.setLayoutParams(new LinearLayout.LayoutParams(dp2px(25), dp2px(25)));
-        toastImg.setScaleType( ImageView.ScaleType.FIT_XY);
-        toastImg.setImageResource(imgId);
-        toastView.addView(toastImg, 0);
-        toast.show();
-    }
-
-    public void showToast(int textId) {
-        showToast(getString(textId));
-    }
-
     public BaseActivity getActivity() {
         return this;
     }
@@ -127,25 +60,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public void startIntent(Class clazz) {
         startActivity(getIntent(clazz));
-    }
-
-    public AlertDialog loadingDialog(String text,boolean cancelable){
-        View view= LayoutInflater.from(mthis).inflate
-                (R.layout.toast_loading,null);
-        AVLoadingIndicatorView avl=(AVLoadingIndicatorView) view.findViewById(R.id.avl);
-        avl.show();
-        TextView tv=view.findViewById(R.id.tv);
-        tv.setText(text);
-        AlertDialog dialog=new AlertDialog.Builder(mthis,R.style.CustomDialog)
-                .setView(view)
-                .setCancelable(cancelable)
-                .create();
-        return dialog;
-    }
-
-    public int dp2px(int dp) {
-        return (int) TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, dp,
-                mthis.getResources().getDisplayMetrics());
     }
 
     /**
@@ -161,15 +75,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             mHandler = handler;
             ActivityCompat.requestPermissions(this, permissions, 001);
         }
-    }
-
-    /**
-     *
-     */
-    public String[] getUserData(){
-        SharedPreferences userdate=getSharedPreferences( "userdata",MODE_PRIVATE );
-        String[] uddt=userdate.getString( "getuserdata","" ).split( "," );
-        return uddt;
     }
 
     protected void hideStatusBar() {

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gongyunhaoyyy.wustweschool.R;
-import com.gongyunhaoyyy.wustweschool.bean.score;
+import com.gongyunhaoyyy.wustweschool.bean.Score;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> {
-    private List<score> mlist=new ArrayList<>( );
+    private List<Score> mlist=new ArrayList<>( );
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View scoreview;
@@ -40,7 +40,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> 
             s90=(ImageView)itemView.findViewById( R.id.score_90 );
         }
     }
-    public ScoreAdapter(List<score> scorelist){
+    public ScoreAdapter(List<Score> scorelist){
         mlist=scorelist;
     }
 
@@ -53,7 +53,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> 
                     @Override
                     public void onClick(View v) {
                         int position=viewHolder.getAdapterPosition();
-                        score ss=mlist.get( position );
+                        Score ss=mlist.get( position );
                         Toast.makeText( v.getContext(),ss.getKcmc(),Toast.LENGTH_SHORT ).show();
                     }
                 } );
@@ -63,7 +63,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(ScoreAdapter.ViewHolder holder, int position) {
-        score s=mlist.get( position );
+        Score s=mlist.get( position );
         if (!(s.getZcj().charAt( 0 )>='A'&&s.getZcj().charAt( 0 )<='F')){
             if (Integer.parseInt( s.getZcj() )>=90){
                 holder.s90.setVisibility( View.VISIBLE );
